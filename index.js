@@ -1,21 +1,57 @@
+const express=require('express');
 const http=require("http");
 const fs=require('fs');
 const path=require('path');
-const dirpath=path.join(__dirname);
-const filepath=`${dirpath}/apple.txt`;
+const app=express();
+const filepath=path.join(__dirname,'public');
+
+ 
+// app.use(express.static(filepath));
+
+app.get('/',(req,res)=>{
+    res.sendFile(`${filepath}/home.html`)
+})
+app.get('/about',(req,res)=>{
+    res.sendFile(`${filepath}/about.html`)
+})
+app.get('*',(req,res)=>{
+
+    res.sendFile(`${filepath}/pagenotfound.html`)
+})
+
+app.listen(5000,()=>{
+    console.log('server on port 5000');
+})
 
 
-let wait =new Promise((resolve,reject)=>{
+// app.get('/',(req,res)=>{
+//     res.send(`
+//     <h1>${req.query.name}</h1>
+//     <h1>Nodejs is working fine </h1>
+//     <a href="/about">about</a>  
+//     `);
+// })
+// app.get('/about',(req,res)=>{
+//      res.send(`
+//     <h1>this is about page</h1>
+//       <a href="/">Home</a>  
+//      `)
+// })
+
+
+
+
+// let wait =new Promise((resolve,reject)=>{
      
-    setTimeout(()=>{
-        resolve(50);
-        console.log("data has been send..")
-    },2000);
-})
+//     setTimeout(()=>{
+//         resolve(50);
+//         console.log("data has been send..")
+//     },2000);
+// })
 
-wait.then((data)=>{
-   console.log(data);
-})
+// wait.then((data)=>{
+//    console.log(data);
+// })
 
 
 
@@ -62,15 +98,14 @@ wait.then((data)=>{
 //     console.log('invalid input!')
 // }
 
-console.log("server ruuning on port 5000 ...");
 
 
 
 
 
-http.createServer((req,res)=>{
-    res.writeHead(200,{'content-t':'application/json'});
-    res.write(JSON.stringify(data));
-   // res.write(JSON.stringify({Name:'kuldeep',email:'kuldeepkushwah529@gmail.com'}));
-    res.end();
-}).listen(5000);
+// http.createServer((req,res)=>{
+//     res.writeHead(200,{'content-t':'application/json'});
+//     res.write(JSON.stringify(data));
+//    // res.write(JSON.stringify({Name:'kuldeep',email:'kuldeepkushwah529@gmail.com'}));
+//     res.end();
+// }).listen(5000);
