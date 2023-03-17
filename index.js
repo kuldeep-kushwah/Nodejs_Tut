@@ -5,7 +5,17 @@ const dirpath=path.join(__dirname);
 const filepath=`${dirpath}/apple.txt`;
 
 
+let wait =new Promise((resolve,reject)=>{
+     
+    setTimeout(()=>{
+        resolve(50);
+        console.log("data has been send..")
+    },2000);
+})
 
+wait.then((data)=>{
+   console.log(data);
+})
 
 
 
