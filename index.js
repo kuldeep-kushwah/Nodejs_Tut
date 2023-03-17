@@ -1,21 +1,23 @@
 const http=require("http");
 const fs=require('fs');
 const path=require('path');
-
 const dirpath=path.join(__dirname);
 const filepath=`${dirpath}/apple.txt`;
 
 
 
- fs.writeFileSync(filepath,"apple file has been created!");
- fs.readFile(filepath,'utf8',(err,f)=>{
-    console.log("showing file content-> "+f);
- })
-fs.appendFileSync(filepath," this is append file")
-fs.renameSync(filepath,`${dirpath}/mango.txt`,(err)=>{
-      if(!err)console.log("file has been updated!");
-});
- fs.unlinkSync(`${dirpath}/mango.txt`)
+
+
+
+//  fs.writeFileSync(filepath,"apple file has been created!");
+//  fs.readFile(filepath,'utf8',(err,f)=>{
+//     console.log("showing file content-> "+f);
+//  })
+// fs.appendFileSync(filepath," this is append file")
+// fs.renameSync(filepath,`${dirpath}/mango.txt`,(err)=>{
+//       if(!err)console.log("file has been updated!");
+// });
+//  fs.unlinkSync(`${dirpath}/mango.txt`)
 
 
 // for(i=0;i<5;i++)
