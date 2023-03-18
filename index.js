@@ -8,21 +8,36 @@ const filepath=path.join(__dirname,'public');
  
 // app.use(express.static(filepath));
 
-app.get('/',(req,res)=>{
-    res.sendFile(`${filepath}/home.html`)
-})
-app.get('/about',(req,res)=>{
-    res.sendFile(`${filepath}/about.html`)
-})
-app.get('*',(req,res)=>{
+app.set('view engine','ejs');
 
-    res.sendFile(`${filepath}/pagenotfound.html`)
+app.get('',(req,res)=>{
+    res.sendFile(`${filepath}/home.html`);
+})
+
+
+app.get('/profile',(req,res)=>{
+    const user={
+        name:'kuldeep',
+        email:'kuldeepkushwah529@gmail.com',
+        skills:['c++','javascipt','dbms','dsa']
+    }
+    res.render('profile',{user});
 })
 
 app.listen(5000,()=>{
     console.log('server on port 5000');
 })
 
+// app.get('/',(req,res)=>{
+//     res.sendFile(`${filepath}/home.html`)
+// })
+// app.get('/about',(req,res)=>{
+//     res.sendFile(`${filepath}/about.html`)
+// })
+// app.get('*',(req,res)=>{
+
+//     res.sendFile(`${filepath}/pagenotfound.html`)
+// })
 
 // app.get('/',(req,res)=>{
 //     res.send(`
