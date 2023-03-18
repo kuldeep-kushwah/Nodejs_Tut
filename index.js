@@ -4,29 +4,70 @@ const fs=require('fs');
 const path=require('path');
 const app=express();
 const filepath=path.join(__dirname,'public');
+const reqfilter=require('./middleware/middleware');
+const route=express.Router();
+//  const reqfilter=(req,res,next)=>{
+//     console.log('next');
+    
+//     if(!req.query.age)
+//     {
+//         res.send("please provide age!")
+//     }
+//     else if(req.query.age<18)
+//     {
+//         res.send("below 18 not allowed to visit site")
+//     }
+//     else{
+//         next();
+//     }
+//  }
+  
+//  app.use(reqfilter);
 
+route.use(reqfilter);
+
+ app.get('/',(req,res)=>{
+      
+    res.send('welcome to home page')
+ })
+ route.get('/users',(req,res)=>{
+      
+    res.send('welcome to users page')
+ })
+ app.get('/about',(req,res)=>{
+      
+    res.send('welcome to about page')
+ })
+ route.get('/contact',(req,res)=>{
+      
+    res.send('welcome to contact page')
+ })
+
+ app.use('/',route);
  
-// app.use(express.static(filepath));
-
-app.set('view engine','ejs');
-
-app.get('',(req,res)=>{
-    res.sendFile(`${filepath}/home.html`);
-})
-
-
-app.get('/profile',(req,res)=>{
-    const user={
-        name:'kuldeep',
-        email:'kuldeepkushwah529@gmail.com',
-        skills:['c++','javascipt','dbms','dsa']
-    }
-    res.render('profile',{user});
-})
 
 app.listen(5000,()=>{
     console.log('server on port 5000');
 })
+// app.use(express.static(filepath));
+
+// app.set('view engine','ejs');
+
+// app.get('',(req,res)=>{
+//     res.sendFile(`${filepath}/home.html`);
+// })
+
+
+// app.get('/profile',(req,res)=>{
+//     const user={
+//         name:'kuldeep',
+//         email:'kuldeepkushwah529@gmail.com',
+//         skills:['c++','javascipt','dbms','dsa']
+//     }
+//     res.render('profile',{user});
+// })
+
+
 
 // app.get('/',(req,res)=>{
 //     res.sendFile(`${filepath}/home.html`)
