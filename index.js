@@ -1,59 +1,35 @@
-const mongoose=require('mongoose');
+const express=require('express');
+require('./config');
+const app=express();
 
-const url="mongodb://localhost:27017/e-com";
+const product=require('./product');
+app.use(express.json());
 
-//mongoose
-//used to create schema and validation of entry
-
-//schema
-// fields are the schema
-
-//model
-// model provide the connectivity bw nodejs and mongodb
-
- mongoose.connect(url);
-
-const productSchema=new mongoose.Schema({
-     name:String,
-     price:Number,
-     brand:String,
-     category:String
-    });
-
-const saveInDb=async()=>{
-    
-     const product=new mongoose.model('product',productSchema);
-     const data=new product({
-          name:'apple 13',
-          price:1000,
-          brand:'apple',
-          category:'Mobile'
-     });
-     let result=await data.save();
+app.post('/create',async(req,res)=>{
+      const data=new product(req.body);
+      const result=await data.save();
      console.log(result);
- 
-}
+     res.send(result);
+})
 
-const updateInDb=async()=>{
-     const product=new mongoose.model('product',productSchema);
-     let result=await product.updateOne({name:'apple 13'},{$set:{name:"apple 13 pro max"}}) 
-      console.log(result);
-}
+app.get('/list',async(req,res)=>{
+     const data=await product.find();
+     console.log(data);
+     res.send(data);
+})
 
-const deleteInDb=async()=>{
-     const product =new mongoose.model('product',productSchema);
-     let result=await product.deleteOne({name:"apple 13"});
+app.delete('/delete/:_id',async(req,res)=>{
+     const result=await product.deleteOne(req.params);
      console.log(result);
-}
-const findInDb=async()=>{
-     const product =new mongoose.model('product',productSchema);
-     let result=await product.find({});
+     res.send(result);
+})
+
+app.put('/update/:_id',async(req,res)=>{
+     const result=await product.updateOne(req.params,{$set:req.body});
      console.log(result);
-}
+     res.send(result);
+})
 
-
-//findInDb();
-deleteInDb();
-//updateInDb();
-//saveInDb();
-
+app.listen(5000,()=>{
+     console.log("server running on port 5000");
+});
