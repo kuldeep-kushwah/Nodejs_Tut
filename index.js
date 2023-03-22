@@ -1,32 +1,59 @@
-const express=require('express');
-const http=require("http");
-const fs=require('fs');
-const path=require('path');
-const app=express();
-const filepath=path.join(__dirname,'public');
-const reqfilter=require('./middleware/middleware');
-const route=express.Router();
+const mongoose=require('mongoose');
 
-const dbconnect=require('./mongodb');
+const url="mongodb://localhost:27017/e-com";
 
-const main=async()=>{
-     let collection=await dbconnect();
-     let coll_details=await collection.find({}).toArray();
-     console.log(coll_details);
+//mongoose
+//used to create schema and validation of entry
+
+//schema
+// fields are the schema
+
+//model
+// model provide the connectivity bw nodejs and mongodb
+
+ mongoose.connect(url);
+
+const productSchema=new mongoose.Schema({
+     name:String,
+     price:Number,
+     brand:String,
+     category:String
+    });
+
+const saveInDb=async()=>{
+    
+     const product=new mongoose.model('product',productSchema);
+     const data=new product({
+          name:'apple 13',
+          price:1000,
+          brand:'apple',
+          category:'Mobile'
+     });
+     let result=await data.save();
+     console.log(result);
+ 
 }
-main();
 
-// const insert=async()=>{
-//    let coll=await dbconnect();
-//    console.log(coll);
-//   let res=coll.insertMany([{ name:'vinay', email:'vinayrandi75@gmail.com' },{
-//    name:'satyam',
-//    email:'kumarsatyam34@gmail.com'
-//   }]);
-// }
+const updateInDb=async()=>{
+     const product=new mongoose.model('product',productSchema);
+     let result=await product.updateOne({name:'apple 13'},{$set:{name:"apple 13 pro max"}}) 
+      console.log(result);
+}
 
-// insert();
+const deleteInDb=async()=>{
+     const product =new mongoose.model('product',productSchema);
+     let result=await product.deleteOne({name:"apple 13"});
+     console.log(result);
+}
+const findInDb=async()=>{
+     const product =new mongoose.model('product',productSchema);
+     let result=await product.find({});
+     console.log(result);
+}
 
-// app.listen(5000,()=>{
-//    console.log('server on port 5000');
-// })
+
+//findInDb();
+deleteInDb();
+//updateInDb();
+//saveInDb();
+
