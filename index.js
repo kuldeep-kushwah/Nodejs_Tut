@@ -1,22 +1,26 @@
 const express=require('express');
-require('./config');
+const multer=require('multer');
+
+//require('./config');
+// const product=require('./product');
+// app.use(express.json());
+
 const app=express();
 
-const product=require('./product');
-app.use(express.json());
+const upload=multer({
+     storage:multer.diskStorage({
+          destination:function(req,file,cb){
+               cb(null,"uploads");
+          },
+          filename:function(req,file,cb){
+               cb(null,file.fieldname+'-'+Date.now()+'.jpg');
+          }
+     })
+}).single('user_file');
 
-
-app.get('/search/:key',async(req,res)=>{
-      
-     let data=await product.find({
-          "$or":[
-               {"name":{$regex:req.params.key}},
-               {"category":{$regex:req.params.key}},
-               
-          ]
-     });
-     console.log(data);
-     res.send(data);
+app.post('/upload',upload,(req,res)=>{
+    
+     res.send('file uploading...');
 })
 
 app.listen(5000,()=>{
